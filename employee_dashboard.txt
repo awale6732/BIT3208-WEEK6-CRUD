@@ -1,0 +1,50 @@
+<?php
+include 'connection.php';
+
+if (!isset($_SESSION['username'])) {
+    header('location:login.php');
+    exit();
+}
+
+$sql = "SELECT * FROM employees";
+$result = mysqli_query($conn, $sql);
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Dashboard</title>
+    <style>
+        body { font-family: Arial; margin: 20px; background: #f0f0f0; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background: #4CAF50; color: white; }
+        .logout { background: #f44336; padding: 10px; border-radius: 5px; color: white; text-decoration: none; float: right; }
+    </style>
+</head>
+<body>
+    <a href="logout.php" class="logout">Logout</a>
+    <h2>Employee Records (View Only)</h2>
+    <p>Welcome, <?php echo $_SESSION['username']; ?>!</p>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Position</th>
+            <th>Salary</th>
+        </tr>
+        <?php while($row = mysqli_fetch_assoc($result)) { ?>
+        <tr>
+            <td><?php echo $row['id']; ?></td>
+            <td><?php echo $row['fullname']; ?></td>
+            <td><?php echo $row['email']; ?></td>
+            <td><?php echo $row['department']; ?></td>
+            <td><?php echo $row['position']; ?></td>
+            <td><?php echo $row['salary']; ?></td>
+        </tr>
+        <?php } ?>
+    </table>
+</body>
+</html>
